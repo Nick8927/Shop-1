@@ -1,11 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
-
 
 class Category(models.Model):
-    name = models.CharField("Название категории", max_length=100, unique=True)
-    slug = models.SlugField("Слаг", max_length=100, unique=True)
-    description = models.TextField("Описание", blank=True)
+    name = models.CharField("Название категории", max_length=255)
+    slug = models.SlugField("URL", unique=True)
 
     class Meta:
         verbose_name = "Категория"
@@ -17,59 +14,42 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(
-        Category,
-        verbose_name="Категория",
-        related_name='products',
-        on_delete=models.CASCADE
+        Category, verbose_name="Категория", on_delete=models.CASCADE, related_name="products"
     )
-    name = models.CharField("Название товара", max_length=200)
-    slug = models.SlugField("Слаг", max_length=200, unique=True)
+    name = models.CharField("Название товара", max_length=255)
     description = models.TextField("Описание", blank=True)
     price = models.DecimalField("Цена", max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField("Количество на складе", default=0)
     available = models.BooleanField("В наличии", default=True)
-    image = models.ImageField(
-        "Изображение",
-        upload_to='products/%Y/%m/%d/',
-        blank=True,
-        null=True
-    )
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    age_group = models.CharField(
+        "Возраст", max_length=50, blank=True, help_text="Например: 0-3 года, 4-6 лет"
+    )
+    size = models.CharField("Размер", max_length=50, blank=True)  # например: 86, 92, M, L
+    color = models.CharField("Цвет", max_length=50, blank=True)
+    brand = models.CharField("Бренд", max_length=100, blank=True)
+
+    image = models.ImageField("Главное изображение", upload_to="products/", blank=True, null=True)
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
-        ordering = ['name']
 
     def __str__(self):
         return self.name
 
 
-class Cart(models.Model):
-    user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
-    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        Product, verbose_name="Товар", on_delete=models.CASCADE, related_name="images"
+    )
+    image = models.ImageField("Изображение", upload_to="products/")
+    alt_text = models.CharField("Описание изображения", max_length=255, blank=True)
 
     class Meta:
-        verbose_name = "Корзина"
-        verbose_name_plural = "Корзины"
+        verbose_name = "Изображение товара"
+        verbose_name_plural = "Изображения товаров"
 
     def __str__(self):
-        return f"Корзина пользователя {self.user.username}"
-
-
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, verbose_name="Корзина", related_name='items', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, verbose_name="Товар", on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField("Количество", default=1)
-
-    class Meta:
-        verbose_name = "Товар в корзине"
-        verbose_name_plural = "Товары в корзине"
-        unique_together = ('cart', 'product')
-
-    def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
-
-    def get_total_price(self):
-        return self.quantity * self.product.price
+        return f"{self.product.name} - {self.id}"
