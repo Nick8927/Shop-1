@@ -43,6 +43,10 @@ class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+
     def __str__(self):
         return f"Cart of {self.user.username}"
 
@@ -53,6 +57,8 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     class Meta:
+        verbose_name = "Товар в корзине"
+        verbose_name_plural = "Товары в корзине"
         unique_together = ('cart', 'product')
 
     def __str__(self):
