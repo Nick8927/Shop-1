@@ -2,6 +2,10 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import Category, Product, Cart, CartItem
 
+admin.site.site_header = "Панель управления магазином"
+admin.site.site_title = "Магазин"
+admin.site.index_title = "Администрирование магазина"
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
