@@ -1,0 +1,51 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} — Shop#1{% endblock %}
+
+{% block content %}
+<section class="container mt-5" data-aos="fade-up">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+            {% else %}
+            <img src="{% static 'shop/assets/img/no_image.png' %}" class="img-fluid rounded shadow-sm" alt="Нет фото">
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h2>{{ product.name }}</h2>
+            <p class="text-muted mb-3">{{ product.brand }}</p>
+            <h4 class="text-success">{{ product.price }} ₽</h4>
+
+            <hr>
+            {% if product.description %}
+            <p>{{ product.description }}</p>
+            {% else %}
+            <p class="text-muted">Описание отсутствует.</p>
+            {% endif %}
+
+            <ul class="list-unstyled mt-3">
+                {% if product.color %}<li><b>Цвет:</b> {{ product.color }}</li>{% endif %}
+                {% if product.size %}<li><b>Размер:</b> {{ product.size }}</li>{% endif %}
+                {% if product.age_group %}<li><b>Возраст:</b> {{ product.age_group }}</li>{% endif %}
+            </ul>
+
+            <a href="/" class="btn btn-outline-primary mt-3"><i class="bi bi-arrow-left"></i> Назад в каталог</a>
+        </div>
+    </div>
+
+    {% if product.images.all %}
+    <hr class="my-5">
+    <h4>Дополнительные изображения</h4>
+    <div class="row mt-3">
+        {% for img in product.images.all %}
+        <div class="col-md-3 col-6 mb-3">
+            <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" class="img-fluid rounded">
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

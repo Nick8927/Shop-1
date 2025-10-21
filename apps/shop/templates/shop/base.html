@@ -1,19 +1,50 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <title>{% block title %}Shop#1{% endblock %}</title>
-    <link href="{% static 'shop/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'shop/assets/css/main.css' %}" rel="stylesheet">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Shop#1{% endblock %}</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <body>
-    {% include 'shop/includes/header.html' %}
-    <main>{% block content %}{% endblock %}</main>
-    {% include 'shop/includes/footer.html' %}
+  <!-- Bootstrap и другие CSS из шаблона -->
+  <link href="{% static 'shop/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'shop/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'shop/assets/vendor/fontawesome/css/all.min.css' %}" rel="stylesheet">
+  <link href="{% static 'shop/assets/css/style.css' %}" rel="stylesheet">
+</head>
 
-    <script src="{% static 'shop/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'shop/assets/js/main.js' %}"></script>
-  </body>
+<body>
+
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex justify-content-between align-items-center">
+
+      <h1 class="logo"><a href="{% url 'index' %}">Магазин</a></h1>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'index' %}" class="active">Главная</a></li>
+          <li><a href="#categories">Категории</a></li>
+          <li><a href="#products">Товары</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="mt-5 pt-5">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer id="footer" class="mt-5 py-4 bg-light text-center">
+    <div class="container">
+      <p>&copy; 2025 Shop#1</p>
+    </div>
+  </footer>
+
+  <!-- Vendor JS -->
+  <script src="{% static 'shop/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'shop/assets/js/main.js' %}"></script>
+  {% block scripts %}{% endblock %}
+</body>
 </html>
