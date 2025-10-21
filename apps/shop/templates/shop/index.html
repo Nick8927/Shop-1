@@ -1,0 +1,23 @@
+{% extends "shop/base.html" %}
+{% block title %}Главная - NiceShop{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h2 class="mb-4">Каталог товаров</h2>
+    <div class="row">
+      {% for product in products %}
+      <div class="col-md-3">
+        <div class="card mb-4">
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text text-muted">{{ product.price }} BYN</p>
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
