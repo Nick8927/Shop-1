@@ -1,14 +1,26 @@
+/**
+* Template Name: NiceShop
+* Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
+* Updated: Aug 26 2025 with Bootstrap v5.3.7
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
 
 @charset "UTF-8";
 
-
+/*--------------------------------------------------------------
+# Font & Color Variables
+# Help: https://bootstrapmade.com/color-system/
+--------------------------------------------------------------*/
+/* Fonts */
 :root {
   --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --heading-font: "Montserrat",  sans-serif;
   --nav-font: "Poppins",  sans-serif;
 }
 
-:root {
+/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+:root { 
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
   --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
   --heading-color: #000000; /* Color for headings, subheadings and title throughout the website */
@@ -43,11 +55,14 @@
   --contrast-color: #ffffff;
 }
 
+/* Smooth scroll */
 :root {
   scroll-behavior: smooth;
 }
 
-
+/*--------------------------------------------------------------
+# General Styling & Shared Classes
+--------------------------------------------------------------*/
 body {
   color: var(--default-color);
   background-color: var(--background-color);
@@ -75,6 +90,7 @@ h6 {
   font-family: var(--heading-font);
 }
 
+/* Pulsating Play Button
 ------------------------------*/
 .pulsating-play-btn {
   width: 94px;
@@ -153,6 +169,7 @@ h6 {
   }
 }
 
+/* PHP Email Form Messages
 ------------------------------*/
 .php-email-form .error-message {
   display: none;
@@ -204,7 +221,9 @@ h6 {
   }
 }
 
-
+/*--------------------------------------------------------------
+# Global Header
+--------------------------------------------------------------*/
 .header {
   color: var(--default-color);
   background-color: var(--background-color);
