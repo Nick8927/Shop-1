@@ -1,51 +1,62 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}{{ product.name }} — Shop#1{% endblock %}
+{% block title %}{{ product.name }} — Магазин{% endblock %}
 
 {% block content %}
-<section class="container mt-5" data-aos="fade-up">
-    <div class="row">
-        <div class="col-md-6">
-            {% if product.image %}
-            <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
-            {% else %}
-            <img src="{% static 'shop/assets/img/no_image.png' %}" class="img-fluid rounded shadow-sm" alt="Нет фото">
-            {% endif %}
-        </div>
+<section class="container mt-5 pt-4" data-aos="fade-up">
+  <div class="row g-4 align-items-start">
 
-        <div class="col-md-6">
-            <h2>{{ product.name }}</h2>
-            <p class="text-muted mb-3">{{ product.brand }}</p>
-            <h4 class="text-success">{{ product.price }} ₽</h4>
-
-            <hr>
-            {% if product.description %}
-            <p>{{ product.description }}</p>
-            {% else %}
-            <p class="text-muted">Описание отсутствует.</p>
-            {% endif %}
-
-            <ul class="list-unstyled mt-3">
-                {% if product.color %}<li><b>Цвет:</b> {{ product.color }}</li>{% endif %}
-                {% if product.size %}<li><b>Размер:</b> {{ product.size }}</li>{% endif %}
-                {% if product.age_group %}<li><b>Возраст:</b> {{ product.age_group }}</li>{% endif %}
-            </ul>
-
-            <a href="/" class="btn btn-outline-primary mt-3"><i class="bi bi-arrow-left"></i> Назад в каталог</a>
-        </div>
+    <!-- Фото товара -->
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+        {% else %}
+          <img src="{% static 'shop/assets/img/no_image.png' %}" alt="Нет фото" class="img-fluid rounded">
+        {% endif %}
+      </div>
     </div>
 
-    {% if product.images.all %}
+    <!-- Описание товара -->
+    <div class="col-lg-6">
+      <h2 class="fw-bold">{{ product.name }}</h2>
+      {% if product.brand %}
+        <p class="text-muted mb-2">Бренд: {{ product.brand }}</p>
+      {% endif %}
+      <h4 class="text-success fw-semibold mb-3">{{ product.price }} ₽</h4>
+
+      <hr>
+
+      {% if product.description %}
+        <p>{{ product.description }}</p>
+      {% else %}
+        <p class="text-muted fst-italic">Описание отсутствует.</p>
+      {% endif %}
+
+      <ul class="list-unstyled mt-3">
+        {% if product.color %}<li><b>Цвет:</b> {{ product.color }}</li>{% endif %}
+        {% if product.size %}<li><b>Размер:</b> {{ product.size }}</li>{% endif %}
+        {% if product.age_group %}<li><b>Возраст:</b> {{ product.age_group }}</li>{% endif %}
+      </ul>
+
+      <a href="{% url 'index' %}" class="btn btn-outline-primary mt-4">
+        <i class="bi bi-arrow-left"></i> Назад в каталог
+      </a>
+    </div>
+  </div>
+
+  <!-- Дополнительные изображения -->
+  {% if product.images.all %}
     <hr class="my-5">
-    <h4>Дополнительные изображения</h4>
-    <div class="row mt-3">
-        {% for img in product.images.all %}
-        <div class="col-md-3 col-6 mb-3">
-            <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" class="img-fluid rounded">
+    <h4 class="mb-4 text-center">Дополнительные изображения</h4>
+    <div class="row g-3">
+      {% for img in product.images.all %}
+        <div class="col-6 col-md-3">
+          <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" class="img-fluid rounded shadow-sm">
         </div>
-        {% endfor %}
+      {% endfor %}
     </div>
-    {% endif %}
+  {% endif %}
 </section>
 {% endblock %}

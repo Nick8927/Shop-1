@@ -5,27 +5,38 @@
 
 {% block content %}
 
-<!-- Hero Section -->
-<section id="hero" class="hero d-flex align-items-center">
-  <div class="container text-center" data-aos="fade-up">
-    <h2>Добро пожаловать в <span>Shop#1</span></h2>
-    <p>Выберите категорию или просмотрите популярные товары.</p>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero d-flex align-items-center text-center bg-light py-5">
+  <div class="container" data-aos="fade-up">
+    <h1 class="fw-bold mb-3">Добро пожаловать в <span class="text-primary">Shop#1</span></h1>
+    <p class="lead mb-4">Выберите категорию или просмотрите популярные товары.</p>
+    <a href="#products" class="btn btn-primary btn-lg">К популярным товарам</a>
   </div>
 </section>
 
-<!-- Categories Section -->
-<section id="categories" class="categories mt-5">
+<!-- ======= Categories Section ======= -->
+<section id="categories" class="categories mt-5 py-5">
   <div class="container" data-aos="fade-up">
-    <div class="section-title"><h2>Категории</h2></div>
-    <div class="row" id="category-list"></div>
+    <div class="section-title text-center mb-4">
+      <h2 class="fw-bold">Категории</h2>
+      <p class="text-muted">Ознакомьтесь с нашими коллекциями</p>
+    </div>
+    <div class="row gy-4" id="category-list">
+      <!-- категории подгружаются через JS -->
+    </div>
   </div>
 </section>
 
-<!-- Products Section -->
-<section id="products" class="products mt-5">
+<!-- ======= Products Section ======= -->
+<section id="products" class="products mt-5 py-5 bg-light">
   <div class="container" data-aos="fade-up">
-    <div class="section-title"><h2>Популярные товары</h2></div>
-    <div class="row gy-4" id="product-list"></div>
+    <div class="section-title text-center mb-4">
+      <h2 class="fw-bold">Популярные товары</h2>
+      <p class="text-muted">Лучшие предложения для вас</p>
+    </div>
+    <div class="row gy-4" id="product-list">
+      <!-- товары подгружаются через JS -->
+    </div>
   </div>
 </section>
 
@@ -33,47 +44,69 @@
 
 {% block scripts %}
 <script>
-const STATIC_NO_IMAGE = "{% static 'shop/assets/img/no_image.png' %}";
+document.addEventListener("DOMContentLoaded", function() {
+  AOS.init();
 
-async function loadCategories() {
-  try {
-    const res = await fetch('/api/categories/');
-    const data = await res.json();
-    const el = document.getElementById('category-list');
-    el.innerHTML = data.map(cat => `
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-stretch">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">${cat.name}</h5>
+  const STATIC_NO_IMAGE = "{% static 'shop/assets/img/product/product-1.webp' %}"; // fallback, можно заменить
+
+  async function loadCategories() {
+    try {
+      const res = await fetch('/api/categories/');
+      const data = await res.json();
+      const el = document.getElementById('category-list');
+
+      if (!data.length) {
+        el.innerHTML = '<p class="text-center text-muted">Категории пока не добавлены</p>';
+        return;
+      }
+
+      el.innerHTML = data.map(cat => `
+        <div class="col-lg-3 col-md-4 col-sm-6" data-aos="zoom-in">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+              <img src="${cat.image || STATIC_NO_IMAGE}" class="img-fluid mb-3 rounded" alt="${cat.name}">
+              <h5 class="card-title fw-semibold">${cat.name}</h5>
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
-  } catch (e) { console.error(e); }
-}
+      `).join('');
+    } catch (e) {
+      console.error('Ошибка при загрузке категорий:', e);
+    }
+  }
 
-async function loadProducts() {
-  try {
-    const res = await fetch('/api/products/');
-    const data = await res.json();
-    const el = document.getElementById('product-list');
-    el.innerHTML = data.map(p => `
-      <div class="col-lg-3 col-md-6">
-        <div class="product-item card h-100 shadow-sm">
-          <a href="/product/${p.id}/">
-            <img src="${p.image || STATIC_NO_IMAGE}" class="img-fluid" alt="${p.name}">
-          </a>
-          <div class="text-center mt-3">
-            <h5>${p.name}</h5>
-            <p class="text-muted">${p.price} ₽</p>
+  async function loadProducts() {
+    try {
+      const res = await fetch('/api/products/');
+      const data = await res.json();
+      const el = document.getElementById('product-list');
+
+      if (!data.length) {
+        el.innerHTML = '<p class="text-center text-muted">Товары пока не добавлены</p>';
+        return;
+      }
+
+      el.innerHTML = data.map(p => `
+        <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up">
+          <div class="product-item card h-100 border-0 shadow-sm">
+            <a href="/product/${p.id}/">
+              <img src="${p.image || STATIC_NO_IMAGE}" class="card-img-top img-fluid" alt="${p.name}">
+            </a>
+            <div class="card-body text-center">
+              <h6 class="fw-bold">${p.name}</h6>
+              <p class="text-muted mb-2">${p.price} ₽</p>
+              <a href="/product/${p.id}/" class="btn btn-outline-primary btn-sm">Подробнее</a>
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
-  } catch (e) { console.error(e); }
-}
+      `).join('');
+    } catch (e) {
+      console.error('Ошибка при загрузке товаров:', e);
+    }
+  }
 
-loadCategories();
-loadProducts();
+  loadCategories();
+  loadProducts();
+});
 </script>
 {% endblock %}
