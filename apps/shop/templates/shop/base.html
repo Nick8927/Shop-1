@@ -2,49 +2,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Shop#1{% endblock %}</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="utf-8">
+    <title>{% block title %}Shop#1{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Интернет-магазин детской одежды Shop#1">
+    <meta name="author" content="Shop#1">
 
+    <link rel="icon" href="{% static 'shop/assets/img/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'shop/assets/img/apple-touch-icon.png' %}">
 
-  <link href="{% static 'shop/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'shop/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'shop/assets/vendor/fontawesome/css/all.min.css' %}" rel="stylesheet">
-  <link href="{% static 'shop/assets/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'shop/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'shop/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'shop/assets/vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'shop/assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'shop/assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'shop/assets/css/main.css' %}" rel="stylesheet">
+
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body>
 
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex justify-content-between align-items-center">
+    <header id="header" class="fixed-top d-flex align-items-center bg-white shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center">
 
-      <h1 class="logo"><a href="{% url 'index' %}">Магазин</a></h1>
+            <h1 class="logo m-0">
+                <a href="{% url 'index' %}" class="text-decoration-none text-dark fw-bold">Магазин</a>
+            </h1>
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="{% url 'index' %}" class="active">Главная</a></li>
-          <li><a href="#categories">Категории</a></li>
-          <li><a href="#products">Товары</a></li>
-          <li><a href="#contact">Контакты</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
-    </div>
-  </header>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a href="{% url 'index' %}" class="nav-link active">Главная</a></li>
+                    <li><a href="#categories" class="nav-link">Категории</a></li>
+                    <li><a href="#products" class="nav-link">Товары</a></li>
+                    <li><a href="#contact" class="nav-link">Контакты</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+        </div>
+    </header>
 
-  <main id="main" class="mt-5 pt-5">
-    {% block content %}{% endblock %}
-  </main>
+    <main id="main" class="mt-5 pt-5">
+        {% block content %}{% endblock %}
+    </main>
 
-  <footer id="footer" class="mt-5 py-4 bg-light text-center">
-    <div class="container">
-      <p>&copy; 2025 Shop#1</p>
-    </div>
-  </footer>
+    <footer id="footer" class="mt-5 py-4 bg-light text-center border-top">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Shop#1. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'shop/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'shop/assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'shop/assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'shop/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'shop/assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
 
 
-  <script src="{% static 'shop/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'shop/assets/js/main.js' %}"></script>
-  {% block scripts %}{% endblock %}
+    <script src="{% static 'shop/assets/js/main.js' %}"></script>
+
+    {% block scripts %}{% endblock %}
 </body>
 </html>
